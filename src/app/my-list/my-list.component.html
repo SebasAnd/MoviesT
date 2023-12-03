@@ -1,0 +1,43 @@
+<div class="mainContent" >
+    <div>_</div>
+<div class="moviesTitle">
+    My List
+</div>
+<div style="font-size: 1vw;margin-left: 75%; color: white;">
+    Sort By: <button  mat-button (click)="ChangeSortName()">Name <mat-icon>{{nameSortIcon}}</mat-icon></button> <button mat-button (click)="ChangeSortDate()">Date <mat-icon>{{dateSortIcon}}</mat-icon></button>
+  </div>
+<div>
+    <mat-grid-list  class="movieList" cols="{{MoviesArray.length}}" rowHeight="1:1.8">
+      <div *ngFor="let item of MoviesArray">
+        <mat-grid-tile   *ngIf="ValidationLike(item['id'])"><mat-card class="example-card"  >
+          
+          <img mat-card-image [routerLink]="['/movieDetails',item['id']]" src="{{item['PosterImage']}}" height="60%" alt="Movie Image">
+          <mat-card-content>
+            <h5>{{item["Title"]}}</h5>
+            <p>
+              {{item["ReleasedDate"]}}
+            </p>
+          </mat-card-content>
+          <mat-card-actions>
+            <div >
+              <button  (click)="AddToFavorites(item['id'])" class="bannerButton" mat-fab  aria-label="fav buttons">
+                <mat-icon *ngIf="ValidationLike(item['id']) then thenBlock else elseBlock" >favorite_border</mat-icon>
+                <ng-template #thenBlock><mat-icon>favorite</mat-icon></ng-template>
+                <ng-template #elseBlock><mat-icon>favorite_border</mat-icon></ng-template>
+              </button>
+            </div>
+
+            
+          </mat-card-actions>
+        </mat-card></mat-grid-tile>
+      </div>
+      </mat-grid-list>
+    </div>
+
+      <div>.</div>
+      
+  
+
+</div>
+
+

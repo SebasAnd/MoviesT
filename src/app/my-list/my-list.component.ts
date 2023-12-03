@@ -2,15 +2,14 @@ import { Component } from '@angular/core';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  selector: 'app-my-list',
+  templateUrl: './my-list.component.html',
+  styleUrls: ['./my-list.component.css']
 })
-export class HomeComponent {
-
+export class MyListComponent {
   MoviesArray :any[]=[];
   MoviesArrayBanner :any[]=[];
-  colors:string[] = ["primary", "darkred","darkyellow"] 
+  colors:string[] = ["primary", "darkred","darkyellow"]; 
 
   nameSortIcon :string ="arrow_downward"
   dateSortIcon :string ="arrow_downward"
@@ -19,6 +18,20 @@ export class HomeComponent {
     let input= localStorage.getItem('AllMovies');
     this.MoviesArray = JSON.parse(input || "{}" );
     this.MoviesArrayBanner = JSON.parse(input || "{}" );
+
+  
+
+    for(let i = 0; i < this.MoviesArray.length;i++)
+    {
+      if(!this.ValidationLike(this.MoviesArray[i]['id'])){
+        this.MoviesArray.splice(i,1);
+      }
+    }
+    if(JSON.parse(localStorage.getItem("LikedMovies")||"[]")["myMovies"].length == 0){
+      this.MoviesArray = [];      
+    }
+
+    
   }
   SortByName(array:any[], state:string){
     if(state == "reverse"){
@@ -34,9 +47,6 @@ export class HomeComponent {
       array.sort((a,b)=>  new Date(b['ReleasedDate']).getTime() - new Date(a['ReleasedDate']).getTime());;
     } 
     
-  }
-  simpleAlert(message:string){
-    Swal.fire(message);
   }
 
   ChangeSortName(){
@@ -66,6 +76,10 @@ export class HomeComponent {
     return array['myMovies'].indexOf(id) > -1;      
   }
   
+  simpleAlert(message:string){
+    Swal.fire(message);
+  }
+  
   AddToFavorites(id:number){
     let array = JSON.parse(localStorage.getItem("LikedMovies")||"[]");
     if(array['myMovies'].indexOf(id) > -1){
@@ -78,7 +92,6 @@ export class HomeComponent {
       localStorage.setItem("LikedMovies", JSON.stringify(array));
       this.simpleAlert("Movie Added To List");
     }
-    
   }
 
 }

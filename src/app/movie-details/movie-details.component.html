@@ -1,1 +1,41 @@
-<p>movie-details works!</p>
+<div class="mainContent" >
+    <div class="movieDetail">
+        <div class="contentImage"><div class="picsum-img-wrapper">
+            <img src="{{MoviesDetail['PosterImage']}}" style="position: relative;" width="100%" height="100%" alt="Random first slide" />
+        </div></div>
+        <div class="contentdetail">
+            <h1>{{MoviesDetail['Title']}}</h1>
+            <p>{{MoviesDetail['Description']}}</p>
+            <p> Release Date:  {{MoviesDetail['ReleasedDate'] | date: 'longDate'}}</p>
+            <p> Rate:  <span mat-fab style="color :orange;"><mat-icon style="margin-top: 30px;">star</mat-icon>{{MoviesDetail['Rating'] | number: '1.1-1'}}</span></p>
+            <p>Duration: {{MoviesDetail['Duration']}}</p>
+            <mat-chip-listbox class="bannerChips" aria-label="Categories" >
+                <mat-chip  style="background-color: gray; " *ngFor="let categorie of MoviesDetail['Genre']">                            
+                  {{categorie}}
+                </mat-chip>
+                
+              </mat-chip-listbox>
+              <button style="margin-top: 10%;" (click)="AddToFavorites(MoviesDetail['id'])" class="bannerButton" mat-fab  aria-label="fav buttons">
+                <mat-icon *ngIf="ValidationLike(MoviesDetail['id']) then thenBlock else elseBlock" >favorite_border</mat-icon>
+                <ng-template #thenBlock><mat-icon>favorite</mat-icon></ng-template>
+                <ng-template #elseBlock><mat-icon>favorite_border</mat-icon></ng-template>
+              </button>
+        </div>
+        
+    </div>
+
+    <div class="moviesTitle">
+        Trailer
+        
+      </div>
+
+<div style="margin-left: 5%;margin-right: 5%;height: 40vw;">
+    <iframe width="100%" height="100%" [src]="SanUrl(MoviesDetail['TrailerLink'])" frameborder="0" allowfullscreen></iframe>
+    
+    </div>
+
+      <div>.</div>
+      
+  
+
+</div>

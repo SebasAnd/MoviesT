@@ -1,1 +1,69 @@
-<p>home works!</p>
+<div class="mainContent" >
+    <div class="moviesSlider">
+        <ngb-carousel>
+            <ng-template ngbSlide *ngFor="let item of MoviesArrayBanner">
+                <div class="picsum-img-wrapper">
+                    <img src="{{item['PosterImage']}}" style="position: relative;" width="100%" height="700" alt="Random first slide" />
+                </div>
+                
+                <div class="carousel-caption">
+                    <div class="carousel-text">
+                     <h1>{{item["Title"]}}</h1> 
+                     <button [routerLink]="['/movieDetails',item['id']]" class="bannerButton" mat-fab  aria-label="Example icon button with a heart icon">
+                        <mat-icon>group_work</mat-icon>
+                      </button>
+                    <p>{{item["ReleasedDate"]}}</p>
+                    <mat-chip-listbox class="bannerChips" aria-label="Categories" >
+                        <mat-chip  style="background-color: gray; " *ngFor="let categorie of item['Genre']">                            
+                          {{categorie}}
+                        </mat-chip>
+                        
+                      </mat-chip-listbox>
+                    </div>
+                    
+                </div>
+            </ng-template>
+        </ngb-carousel>
+    </div>
+<div class="moviesTitle">
+  Movies
+  
+</div>
+<div style="font-size: 1vw;margin-left: 75%; color: white;">
+  Sort By: <button  mat-button (click)="ChangeSortName()">Name <mat-icon>{{nameSortIcon}}</mat-icon></button> <button mat-button (click)="ChangeSortDate()">Date <mat-icon>{{dateSortIcon}}</mat-icon></button>
+</div>
+<div>
+    <mat-grid-list  class="movieList" cols="{{MoviesArray.length}}" rowHeight="1:1.8">
+      <div >
+        <mat-grid-tile  *ngFor="let item of MoviesArray"><mat-card class="example-card" >
+          
+          <img mat-card-image [routerLink]="['/movieDetails',item['id']]" src="{{item['PosterImage']}}" height="60%" alt="Movie Image">
+          <mat-card-content>
+            <h5>{{item["Title"]}}</h5>
+            <p>
+              {{item["ReleasedDate"]}}
+            </p>
+          </mat-card-content>
+          <mat-card-actions>
+            <div >
+              <button  (click)="AddToFavorites(item['id'])" class="bannerButton" mat-fab  aria-label="fav buttons">
+                <mat-icon *ngIf="ValidationLike(item['id']) then thenBlock else elseBlock" >favorite_border</mat-icon>
+                <ng-template #thenBlock><mat-icon>favorite</mat-icon></ng-template>
+                <ng-template #elseBlock><mat-icon>favorite_border</mat-icon></ng-template>
+              </button>
+            </div>
+
+            
+          </mat-card-actions>
+        </mat-card></mat-grid-tile>
+      </div>
+      </mat-grid-list>
+    </div>
+
+      <div>.</div>
+      
+  
+
+</div>
+
+
